@@ -13,7 +13,6 @@
 build
 Debug
 documentation/html
-packages/
 *~
 *.o
 *.obj
@@ -37,7 +36,6 @@ JLinkLog.txt
 JLinkSettings.ini
 DebugConfig/
 RTE/
-settings/
 *.uvguix*
 cconfig.h
 .settings
