@@ -166,7 +166,7 @@
     </cconfiguration>
   </storageModule>
   <storageModule moduleId="cdtBuildSystem" version="4.0.0">
-    <project id="qemu-vexpress-a9.ilg.gnuarmeclipse.managedbuild.cross.target.elf.860020518" name="Executable" projectType="ilg.gnuarmeclipse.managedbuild.cross.target.elf" />
+    <project id="EasyFlashAutoTestBSP.ilg.gnuarmeclipse.managedbuild.cross.target.elf.860020518" name="Executable" projectType="ilg.gnuarmeclipse.managedbuild.cross.target.elf" />
   </storageModule>
   <storageModule moduleId="scannerConfiguration">
     <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="" />
@@ -177,7 +177,7 @@
   <storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders" />
   <storageModule moduleId="refreshScope" versionNumber="2">
     <configuration configurationName="Debug">
-      <resource resourceType="PROJECT" workspacePath="/qemu-vexpress-a9" />
+      <resource resourceType="PROJECT" workspacePath="/EasyFlashAutoTestBSP" />
     </configuration>
   </storageModule>
   <storageModule moduleId="org.eclipse.cdt.make.core.buildtargets" />
