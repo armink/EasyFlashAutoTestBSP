@@ -37,6 +37,4 @@ JLinkSettings.ini
 DebugConfig/
 RTE/
 *.uvguix*
-cconfig.h
-.settings
 drivers/automac.h
