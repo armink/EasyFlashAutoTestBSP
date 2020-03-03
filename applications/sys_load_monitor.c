@@ -18,7 +18,7 @@
 #define SYS_LOAD_MONITOR_MAX_THREAD    (5)
 
 #if RT_THREAD_PRIORITY_MAX > 32
-#error "Not support, I hope you can do it"
+#error "Not support, I hope you can fix it"
 #endif
 
 #define MAX_RECORD                     (SYS_LOAD_MONITOR_FREQ * SYS_LOAD_MONITOR_TIME)
@@ -41,6 +41,9 @@ static void sys_load_record(void *parameter)
     rt_thread_t thread;
     struct rt_list_node *node;
 
+    /* clean the old state */
+    rt_memset(&thread_record[record_tail], 0, SYS_LOAD_MONITOR_MAX_THREAD);
+    /* current ready priority group */
     prio_record[record_tail] = rt_thread_ready_priority_group;
     /* first thread is running state */
     thread_record[record_tail][thread_index++] = rt_thread_self();
@@ -99,10 +102,9 @@ void sys_load_monitor_dump(void)
     record_tail_bak = record_tail;
     if (record_is_full)
     {
-        if (record_tail_bak == 0)
-            record_head = MAX_RECORD - 1;
-        else
-            record_head = record_tail_bak + 1;
+        record_head = record_tail_bak + 1;
+        if (record_head == MAX_RECORD)
+            record_head = 0;
     }
 
     rt_kprintf("%-*.s | 0       7     15      23      31 | ready thread list..\n", RT_NAME_MAX, "RUNNING");
