@@ -54,7 +54,7 @@ static void sys_load_record(void *parameter)
         rt_list_for_each(node, &rt_thread_priority_table[i])
         {
             thread = rt_list_entry(node, struct rt_thread, tlist);
-            rt_kprintf("add a thread %.*s %d %d\n", RT_NAME_MAX, thread->name, thread->current_priority, i);
+//            rt_kprintf("add a thread %.*s %d %d\n", RT_NAME_MAX, thread->name, thread->current_priority, i);
             thread_record[record_tail][thread_index ++] = thread;
 
             if (thread_index >= SYS_LOAD_MONITOR_MAX_THREAD)
@@ -68,10 +68,8 @@ __exit:
     if (record_tail >= MAX_RECORD)
     {
         if (!record_is_full)
-        {
-            rt_kprintf("sys_load_record first full\n");
             record_is_full = RT_TRUE;
-        }
+
         record_tail = 0;
     }
 }
@@ -107,12 +105,13 @@ void sys_load_monitor_dump(void)
             record_head = 0;
     }
 
-    rt_kprintf("%-*.s | 0       7     15      23      31 | ready thread list..\n", RT_NAME_MAX, "RUNNING");
+    rt_kprintf("%-*.s | 31      23      15      7      0 | ready thread list..\n", RT_NAME_MAX, "RUNNING");
+    rt_kprintf("-------- | -------------------------------- | -------------------\n");
     while (record_head != record_tail_bak)
     {
         thread_index = 0;
         thread = thread_record[record_head][thread_index++];
-        rt_kprintf("%-*.s | ", RT_NAME_MAX, thread->name);
+        rt_kprintf("%-*.*s | ", RT_NAME_MAX, RT_NAME_MAX, thread->name);
         /* dump priority group */
         priority = prio_record[record_head];
         for (i = 0; i < RT_THREAD_PRIORITY_MAX; i ++)
@@ -125,10 +124,10 @@ void sys_load_monitor_dump(void)
         /* dump ready thread info */
         for (; thread_index < SYS_LOAD_MONITOR_MAX_THREAD; thread_index ++)
         {
-            thread = thread_record[record_head][thread_index++];
+            thread = thread_record[record_head][thread_index];
             if (thread)
             {
-                rt_kprintf("%-.*s(%d) ", RT_NAME_MAX, thread->name, thread->current_priority);
+                rt_kprintf("%-*.*s(%02d) ", RT_NAME_MAX, RT_NAME_MAX, thread->name, thread->current_priority);
             }
         }
         rt_kprintf("\n");
@@ -139,8 +138,6 @@ void sys_load_monitor_dump(void)
             record_head = 0;
         }
     }
-
-
 
 //    rt_ubase_t level;
 //    //TODO reduce the interrupt disable code

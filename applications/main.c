@@ -6,12 +6,45 @@
 #include <fal.h>
 #include <easyflash.h>
 
+static void entry(void *para)
+{
+    rt_tick_t tick;
+
+    while(1)
+    {
+        tick = rt_tick_get() + rt_tick_from_millisecond(rand()%10);
+        while(rt_tick_get() < tick)
+        {
+        }
+        rt_thread_delay(10);
+    }
+}
+
+void sys_load_test_start(void)
+{
+    rt_thread_t thread;
+    int i;
+    char name[] = "thread-a";
+
+#define MAX_THREAD 15
+
+    for (i = 0; i < MAX_THREAD; i++)
+    {
+        name[7] = 'a' + i;
+        thread = rt_thread_create(name, entry, RT_NULL, 512, i * 2, 10);
+        if (thread)
+            rt_thread_startup(thread);
+    }
+}
+
 int main(void)
 {
     printf("hello rt-thread\n");
 
     fal_init();
     easyflash_init();
+
+    sys_load_test_start();
 
     return 0;
 }
