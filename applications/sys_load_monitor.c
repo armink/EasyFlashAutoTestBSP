@@ -36,13 +36,13 @@ static void sys_load_record(void *parameter)
     extern rt_list_t rt_thread_priority_table[RT_THREAD_PRIORITY_MAX];
     extern rt_uint32_t rt_thread_ready_priority_group;
     rt_size_t i, thread_index = 0;
-    rt_kprintf("sys_load_record %08x\n", rt_thread_ready_priority_group);
+//    rt_kprintf("sys_load_record %08x\n", rt_thread_ready_priority_group);
 
     rt_thread_t thread;
     struct rt_list_node *node;
 
     /* clean the old state */
-    rt_memset(&thread_record[record_tail], 0, SYS_LOAD_MONITOR_MAX_THREAD);
+    rt_memset(&thread_record[record_tail], 0, SYS_LOAD_MONITOR_MAX_THREAD * sizeof(rt_thread_t));
     /* current ready priority group */
     prio_record[record_tail] = rt_thread_ready_priority_group;
     /* first thread is running state */
