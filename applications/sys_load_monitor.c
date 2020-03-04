@@ -9,13 +9,20 @@
  */
 
 #include <rtthread.h>
+#include <stdlib.h>
 
 /* monitor frequency (Hz) */
+#ifndef SYS_LOAD_MONITOR_FREQ
 #define SYS_LOAD_MONITOR_FREQ          (1)
+#endif
 /* monitor recording time (seconds) */
+#ifndef SYS_LOAD_MONITOR_TIME
 #define SYS_LOAD_MONITOR_TIME          (20)
+#endif
 /* monitor recording threads number */
+#ifndef SYS_LOAD_MONITOR_MAX_THREAD
 #define SYS_LOAD_MONITOR_MAX_THREAD    (5)
+#endif
 
 #if RT_THREAD_PRIORITY_MAX > 32
 #error "Not support, I hope you can fix it"
@@ -85,11 +92,14 @@ int sys_load_monitor_init(void)
 }
 INIT_PREV_EXPORT(sys_load_monitor_init);
 
+/**
+ * dump the system load history
+ */
 void sys_load_monitor_dump(void)
 {
-    //TODO 关闭中断
     //TODO 打印线程 call stack
-    rt_size_t i, thread_index = 0;
+    rt_size_t thread_index = 0;
+    rt_off_t i;
     rt_size_t record_head, record_tail_bak;
     rt_thread_t thread;
     rt_uint32_t priority;
@@ -114,9 +124,10 @@ void sys_load_monitor_dump(void)
         rt_kprintf("%-*.*s | ", RT_NAME_MAX, RT_NAME_MAX, thread->name);
         /* dump priority group */
         priority = prio_record[record_head];
-        for (i = 0; i < RT_THREAD_PRIORITY_MAX; i ++)
+        for (i = RT_THREAD_PRIORITY_MAX - 1; i >= 0; i--)
         {
-            if ((priority & 0x80000000) == 0) rt_kprintf(" ");
+            if (i == thread->current_priority)  rt_kprintf("$");
+            else if ((priority & 0x80000000) == 0) rt_kprintf(" ");
             else rt_kprintf("*");
             priority <<= 1;
         }
@@ -153,3 +164,34 @@ int sys_load_monitor_deinit(void)
     //TODO 资源清零
     return RT_EOK;
 }
+
+/* ================= system load test code ========================== */
+static void entry(void *para)
+{
+    rt_tick_t tick;
+
+    while(1)
+    {
+        tick = rt_tick_get() + rt_tick_from_millisecond(rand()%10);
+        while(rt_tick_get() < tick);
+        rt_thread_delay(10);
+    }
+}
+
+static void start_load_test(void)
+{
+    rt_thread_t thread;
+    int i;
+    char name[] = "thread-a";
+
+#define MAX_THREAD 15
+
+    for (i = 0; i < MAX_THREAD; i++)
+    {
+        name[7] = 'a' + i;
+        thread = rt_thread_create(name, entry, RT_NULL, 512, i * 2, 10);
+        if (thread)
+            rt_thread_startup(thread);
+    }
+}
+MSH_CMD_EXPORT(start_load_test, start system load test);
