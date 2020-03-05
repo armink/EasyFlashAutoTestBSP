@@ -8,5 +8,10 @@
   "path": "/packages/system/fal", 
   "ver": "v0.4.0", 
   "name": "FAL"
+ }, 
+ {
+  "path": "/packages/system/sys_load_monitor", 
+  "ver": "v1.0.0", 
+  "name": "SYS_LOAD_MONITOR"
  }
 ]

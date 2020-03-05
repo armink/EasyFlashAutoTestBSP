@@ -312,6 +312,12 @@
 #define FAL_PART_HAS_TABLE_CFG
 #define PKG_USING_FAL_V00400
 #define PKG_FAL_VER_NUM 0x00400
+#define PKG_USING_SYS_LOAD_MONITOR
+#define SYS_LOAD_MONITOR_FREQ 1
+#define SYS_LOAD_MONITOR_TIME 20
+#define SYS_LOAD_MONITOR_MAX_THREAD 5
+#define SYS_LOAD_MONITOR_USING_TEST
+#define PKG_USING_SYS_LOAD_MONITOR_V100
 /* end of system packages */
 
 /* peripheral libraries and drivers */

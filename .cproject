@@ -65,6 +65,7 @@
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//drivers}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/EasyFlash-v4.0.0/inc}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/fal-v0.4.0/inc}&quot;" />
+                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/sys_load_monitor-v1.0.0}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//rt-thread/components/dfs/filesystems/devfs}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//rt-thread/components/dfs/filesystems/elmfat}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//rt-thread/components/dfs/filesystems/ramfs}&quot;" />
